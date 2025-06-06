@@ -7,6 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export function LoginPage() {
     const [username, setName] = useState("")
     const [password, setDescription] = useState("")
+     const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate()
@@ -34,7 +35,7 @@ export function LoginPage() {
     }
   } catch (error) {
     console.error("Login failed:", error);
-    alert("Failed to login");
+    setNote("username or password is invalid ")
   }
 };
 
@@ -121,6 +122,7 @@ export function LoginPage() {
                     </div>
                 </form>
                 <h3 className="text-center mt-3 text-white-300/100">for new users, register first</h3>
+                <h3 className="text-center mt-3 text-white-300/100 text-red-500" >{note}</h3>
             </div>
         </div>
     )

@@ -22,10 +22,33 @@ app.use(bodyParser.json());
 
 
 
-// Get all expense categories
-app.get("/", async (req, res) => {
+
+app.post("/login",async(req,res)=>{
+
   try {
-    const response = await axios.get(`${API_URL}/`);
+    const response = await axios.post(`${API_URL}/login`,req.body);
+    console.log(response);
+    res.status(200).json(response.data );
+  } catch (error) {
+    res.status(500).json({ message: "Invaild password or login" })
+  }});
+
+
+app.post("/register",async(req,res)=>{
+
+try {
+  const response = await axios.post(`${API_URL}/register`,req.body);
+  console.log(response);
+  res.status(201).json(response.data);
+} catch (err) {
+  console.log(err);
+  res.status(500).json({message:"please select the unique password"})
+}})
+
+// Get all expense categories
+app.get("/categories", async (req, res) => {
+  try {
+    const response = await axios.get(`${API_URL}/categories`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {

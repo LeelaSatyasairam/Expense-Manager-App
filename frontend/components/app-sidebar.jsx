@@ -1,5 +1,6 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaSignOutAlt } from "react-icons/fa";
 
 import {
   Sidebar,
@@ -13,18 +14,18 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "../components/ui/sidebar"
+} from "../components/ui/sidebar";
 
-// This is sample data.
+// Sample navigation data
 const data = {
   navMain: [
-  {
+    {
       title: "Expense Manager",
-      url: "/",
+      url: "",
       items: [
         {
           title: "Expense Categories",
-          url: "/",
+          url: "/categories",
         },
         {
           title: "Expense Types",
@@ -34,30 +35,45 @@ const data = {
           title: "Expenses",
           url: "/expense",
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 };
-export function AppSidebar({
-  ...props
-}) {
+
+export function AppSidebar({ ...props }) {
+  const username = localStorage.getItem("username") ;
+  const navigate = useNavigate();
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    navigate("/"); // Redirect to login page
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div
-                  className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Expense Application</span>
-                  <span className="">v1.0.0</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
+            {/* Use a div instead of anchor to wrap username and logout button */}
+            <div className="flex items-center justify-between px-4 py-2 cursor-default select-none">
+              {/* Username and welcome text */}
+              <div className="flex flex-col">
+                <span className="font-medium text-2xl">{username}</span>
+                <span className="text-sm underline">Welcome to Expense Manager</span>
+              </div>
+
+              {/* Logout button */}
+              <button
+                onClick={handleLogout}
+                className="text-sidebar-primary-foreground hover:text-red-600 transition-colors"
+                title="Logout"
+                aria-label="Logout"
+              >
+                <FaSignOutAlt size={24} />
+              </button>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -73,10 +89,13 @@ export function AppSidebar({
                 </SidebarMenuButton>
                 {item.items?.length ? (
                   <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
+                    {item.items.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={subItem.isActive}
+>
+                          <a href={subItem.url}>{subItem.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}

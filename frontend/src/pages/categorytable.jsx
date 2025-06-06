@@ -63,7 +63,7 @@ export function DataTableDemo() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("http://localhost:3000/")
+    fetch("http://localhost:3000/categories")
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

@@ -3,24 +3,26 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { Button } from "../../components/ui/button"
 
-export function AddCategoryForm() {
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
+export function RegisterForm() {
+  const [username, setName] = useState("")
+  const [password, setDescription] = useState("")
+  const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:3000/new", { name, description })
-      navigate("/categories")
+      await axios.post("http://localhost:3000/register", { username, password })
+      alert("user register succesfull")
+      navigate("/")
     } catch (error) {
       console.error("Error creating category:", error)
-      alert("Failed to create category")
+      setNote("Please enter a unique username & password"); // ✅ Update the state instead of DOM 1000);
     }
   }
 
   const handleCancel = () => {
-    navigate("/categories")
+    navigate("/")
   }
 
   return (
@@ -36,13 +38,13 @@ export function AddCategoryForm() {
           borderColor: "var(--border)",
         }}
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Add New Category</h1>
+        <h1 className="text-3xl font-bold mt-10 mb-20 text-center">Register</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Name</label>
+          <div className="mb-6">
             <input
               type="text"
-              value={name}
+              value={username}
+              placeholder="Enter username"
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required
@@ -53,11 +55,11 @@ export function AddCategoryForm() {
               }}
             />
           </div>
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Description</label>
+          <div className="mb-5">
              <input
               type="text"
-               value={description}
+               value={password}
+                placeholder="Enter password"
               onChange={(e) => setDescription(e.target.value)}
                 className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required
@@ -68,7 +70,7 @@ export function AddCategoryForm() {
               }}
             />
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-10">
             <Button
               type="submit"
               className="flex-1"
@@ -77,7 +79,7 @@ export function AddCategoryForm() {
                 color: "var(--primary-foreground)",
               }}
             >
-              Submit
+              Register
             </Button>
             <Button
               type="button"
@@ -93,6 +95,8 @@ export function AddCategoryForm() {
             </Button>
           </div>
         </form>
+       {/* ✅ Display the note */}
+       {note && <p className="note m-1.5">{note}</p>}
       </div>
     </div>
   )

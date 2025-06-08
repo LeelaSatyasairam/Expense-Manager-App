@@ -39,6 +39,7 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
 
+  
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -61,6 +62,13 @@ export function DataTableDemo() {
     }
   };
 
+
+  // Edit handler: navigate to edit category form
+
+const handleEdit = (id) => {
+  navigate(`/edit-category?id=${id}`);
+};
+
   // Fetch data from backend
   useEffect(() => {
     fetch("http://localhost:3000/categories")
@@ -68,6 +76,7 @@ export function DataTableDemo() {
       .then((resData) => {
         if (resData.status === "success") {
           setData(resData.data);
+          console.log(resData.data)
         }
       })
       .catch((err) => {
@@ -136,6 +145,10 @@ export function DataTableDemo() {
                 onClick={() => navigator.clipboard.writeText(category.id)}
               >
                 Copy ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+               onClick={() => handleEdit(category.id)}>
+                Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleDelete(category.id)}>

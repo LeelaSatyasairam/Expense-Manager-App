@@ -75,6 +75,13 @@ export function ExpenseDataTable() {
         console.error("Error fetching expense categories:", err);
       });
   }, []);
+  
+
+    // Edit handler: navigate to edit category form
+
+const handleEdit = (id) => {
+  navigate(`/edit-categorytype?id=${id}`);
+};
 
   const columns = [
     {
@@ -139,6 +146,11 @@ export function ExpenseDataTable() {
                 onClick={() => navigator.clipboard.writeText(category.id)}
               >
                 Copy ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleEdit(category.id)}
+              >
+                Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleDelete(category.id)}>

@@ -5,10 +5,13 @@ import { AppSidebar } from "../components/app-sidebar";
 
 import { DataTableDemo } from "./pages/categorytable";
 import { AddCategoryForm } from "./pages/AddCategoryForm";
+import { EditCategoryForm } from "./pages/EditCategoryForm";
 import { ExpenseDataTable } from "./pages/expensetypetable";
 import { AddExpenseTypeForm } from "./pages/AddexpenseTypeForm";
+import { EditExpenseTypeForm } from "./pages/EditexpenseTypeForm";
 import { ExpenseTable } from "./pages/expensetable";
 import { AddExpenseForm } from "./pages/AddexpenseForm";
+import { EditExpenseForm } from "./pages/EditexpenseForm";
 import { LoginPage } from "./pages/login"; // Add your login page here
 import { RegisterForm } from "./pages/register"; // Add your register page here
 
@@ -45,10 +48,13 @@ export default function App() {
         >
           <Route path="/categories" element={<DataTableDemo />} />
           <Route path="/add-category" element={<AddCategoryForm />} />
+          <Route path="/edit-category" element={<EditCategoryForm />} />
           <Route path="/type" element={<ExpenseDataTable />} />
+          <Route path="/edit-categorytype" element={<EditExpenseTypeForm />} />
           <Route path="/add-expensetype" element={<AddExpenseTypeForm />} />
           <Route path="/expense" element={<ExpenseTable />} />
           <Route path="/add-expense" element={<AddExpenseForm />} />
+          <Route path="/edit-expense" element={<EditExpenseForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

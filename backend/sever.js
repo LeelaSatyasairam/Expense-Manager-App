@@ -16,13 +16,12 @@ app.use(cors({
 }));
 
 app.use(express.static("public"));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
 
-
+// login to website
 app.post("/login",async(req,res)=>{
 
   try {
@@ -34,6 +33,7 @@ app.post("/login",async(req,res)=>{
   }});
 
 
+// register to website
 app.post("/register",async(req,res)=>{
 
 try {
@@ -56,9 +56,22 @@ app.get("/categories", async (req, res) => {
   }
 });
 
-// Get name colummn from expense categories
 
+// Get single categories
+app.get("/singlecategory", async (req, res) => {
+  try {
+     const { id } = req.query;
+    const response = await axios.get(`${API_URL}/singlecategory?id=${id}`);
+    console.log(response);
+    res.status(200).json(response.data );
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+});
+
+// Get name colummn from expense categories
 app.get("/name", async (req, res) => {
+
   try {
     const response = await axios.get(`${API_URL}/name`);
     console.log(response);
@@ -68,20 +81,30 @@ app.get("/name", async (req, res) => {
   }
 });
 
-
 // Create a new expense category
 app.post("/new", async (req, res) => {
   try {
     const response = await axios.post(`${API_URL}/new`, req.body);
     console.log(response.data);
-    res.redirect("/");
+    res.redirect("/categories");
   } catch (error) {
     res.status(500).json({ message: "Error creating post" });
   }
 });
 
-// // Delete expense category
+// edit expense category
+app.put("/editcategory",async(req,res) => {
+try {
+  const response = await axios.put(`${API_URL}/editcategory`,req.body);
+  console.log(response.data);
+  res.redirect("/categories");
+} catch (err) {
+  console.log(err);
+  res.status(500).json({message:"Error editing post"});
+}
+})
 
+// // Delete expense category
 app.delete("/data", async (req, res) => {
   try {
     const { id } = req.query;
@@ -92,6 +115,7 @@ app.delete("/data", async (req, res) => {
     res.status(500).json({ message: "Error: cannot delete" });
   }
 });
+
 
 
 // Get all expense type
@@ -105,8 +129,19 @@ app.get("/type", async (req, res) => {
   }
 });
 
-// Get name colummn from expense type
+// Get  expense type
+app.get("/singletype", async (req, res) => {
+  try {
+     const { id } = req.query;
+    const response = await axios.get(`${API_URL}/singletype?id=${id}`);
+    console.log(response);
+    res.status(200).json(response.data );
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+});
 
+// Get name colummn from expense type
 app.get("/expensename", async (req, res) => {
   try {
     const response = await axios.get(`${API_URL}/expensename`);
@@ -116,7 +151,6 @@ app.get("/expensename", async (req, res) => {
     res.status(500).json({ message: "Error fetching posts" });
   }
 });
-
 
 // Create a new expense type
 app.post("/newtype", async (req, res) => {
@@ -129,8 +163,19 @@ app.post("/newtype", async (req, res) => {
   }
 });
 
-// // Delete expense type
+// edit expense type
+app.put("/editexpensetype",async(req,res) => {
+try {
+  const response = await axios.put(`${API_URL}/editexpensetype`,req.body);
+  console.log(response.data);
+  res.redirect("/type");
+} catch (err) {
+  console.log(err);
+  res.status(500).json({message:"Error editing post"}); 
+}
+})
 
+// // Delete expense type
 app.delete("/type", async (req, res) => {
   const Id = req.query.id;
 
@@ -150,7 +195,7 @@ app.delete("/type", async (req, res) => {
 
 
 
-// Get all expensetype
+// Get all expenses
 
 app.get("/expense", async (req, res) => {
   try {
@@ -161,6 +206,18 @@ app.get("/expense", async (req, res) => {
     res.status(500).json({ message: "Error fetching posts" });
   }
 });
+
+// Get single expense 
+app.get("/singleexpense",async(req,res)=>{
+const id = req.query.id;
+try {
+  const response = await axios.get(`${API_URL}/singleexpense?id=${id}`)
+  console.log(response);
+  res.status(200).json(response.data );
+} catch (err) {
+  res.status(500).json({ message: "Error fetching posts" });
+}
+})
 
 // Create a new expense 
 app.post("/newexpense", async (req, res) => {
@@ -173,8 +230,21 @@ app.post("/newexpense", async (req, res) => {
   }
 });
 
-// // Delete expense
 
+//edit expenses
+app.put("/editexpenses",async(req,res)=>{
+  try {
+  const response = await axios.put(`${API_URL}/editexpenses`,req.body);
+   console.log(response.data);  
+  res.redirect("/expense");
+  } catch (err) {
+      console.log(err);
+  res.status(500).json({message:"Error editing post"}); 
+  }
+  
+})
+
+// // Delete expense
 app.delete("/expense", async (req, res) => {
   const Id = req.query.id;
 

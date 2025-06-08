@@ -1,27 +1,55 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios"
 import { Button } from "../../components/ui/button"
 
-export function AddCategoryForm() {
+export function EditCategoryForm() {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+ // Fetch category data by ID
+
+useEffect(() => {
+  const fetchData = async () => {
     try {
-      await axios.post("http://localhost:3000/new", { name, description })
+      console.log("Fetching category for id:", id);
+      const res = await axios.get(`http://localhost:3000/singlecategory?id=${id}`);
+      console.log("Category API response:", res.data);
+      const category = res.data.data[0];
+      setName(category.name ?? "");
+      setDescription(category.description ?? "");
+    } catch (err) {
+      console.error("Failed to load category", err);
+      alert("Failed to load category details");
+    }
+  };
+
+  if (id) fetchData();
+}, [id]);
+
+
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("Making PUT request to:");
+      await axios.put(`http://localhost:3000/editcategory`, {
+        id,
+        name,
+        description,
+      });
       navigate("/categories")
     } catch (error) {
-      console.error("Error creating category:", error)
-      alert("Failed to create category")
+      console.error("Error updating category:", error);
+      navigate("/categories")
     }
-  }
+  };
 
-  
   const handleCancel = () => {
     navigate("/categories")
   }
@@ -39,13 +67,13 @@ export function AddCategoryForm() {
           borderColor: "var(--border)",
         }}
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Add New Category</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Edit Category</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-1 font-medium">Name</label>
             <input
               type="text"
-              value={name}
+              value={name || ""}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required
@@ -60,7 +88,7 @@ export function AddCategoryForm() {
             <label className="block mb-1 font-medium">Description</label>
              <input
               type="text"
-               value={description}
+               value={description || ""}
               onChange={(e) => setDescription(e.target.value)}
                 className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required

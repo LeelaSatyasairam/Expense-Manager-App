@@ -63,6 +63,10 @@ export function ExpenseTable() {
     }
   };
 
+  const handleEdit =(id)=>{
+    navigate(`/edit-expense?id=${id}`)
+  }
+
   // Fetch data from backend
   useEffect(() => {
     fetch("http://localhost:3000/expense")
@@ -150,6 +154,11 @@ export function ExpenseTable() {
                 onClick={() => navigator.clipboard.writeText(category.id)}
               >
                 Copy ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleEdit(category.id)}
+              >
+                Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleDelete(category.id)}>

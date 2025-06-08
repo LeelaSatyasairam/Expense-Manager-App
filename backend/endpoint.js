@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 db.connect();
 
+
+// login to website
 app.post("/login",async (req,res)=>{
   const {username,password}= req.body;
   try{  
@@ -47,9 +49,7 @@ app.post("/login",async (req,res)=>{
   }
 })
 
-
-
-
+// register to website
 app.post("/register",async(req,res) => {
   const{username,password}=req.body  
 
@@ -106,10 +106,29 @@ app.post("/register",async(req,res) => {
 });
 
 
+
 // Get all expense categories
 app.get("/categories", async (req, res) => {
   try {
     const result = await db.query(`SELECT * FROM expensecategeries`);
+    res.status(200).json({
+      status: "success",
+      data: result.rows,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "failure",
+      message: "Database error",
+    });
+  }
+});
+
+// Get single expense categories
+app.get("/singlecategory", async (req, res) => {
+  const Id = req.query.id
+  try {
+    const result = await db.query(`SELECT * FROM expensecategeries WHERE id =$1 `,[Id]);
     res.status(200).json({
       status: "success",
       data: result.rows,
@@ -158,7 +177,29 @@ app.post("/new", async (req, res) => {
   }
 });
 
+app.put("/editcategory", async (req, res) => {
+  const { id, name, description } = req.body;
+  if (!id || !name || !description) {
+    return res.status(400).json({ error: "id, name, and description are required" });
+  }
+  try {
+    const result = await db.query(
+      `UPDATE expensecategeries
+       SET name = $1, description = $2
+       WHERE id = $3
+       RETURNING *`,
+      [name, description, id]
+    );
 
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    res.status(200).json({ message: "Category updated successfully", data: result.rows[0] });
+  } catch (err) {
+    console.error("PUT error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // Delete expense category
 app.delete("/data", async (req, res) => {
@@ -188,6 +229,9 @@ app.delete("/data", async (req, res) => {
 });
 
 
+
+
+
 // Get all expensetype
 app.get("/type", async (req, res) => {
   try {
@@ -205,7 +249,25 @@ app.get("/type", async (req, res) => {
   }
 });
 
-// Get name colummn from expensetype
+// Get single expensetype
+app.get("/singletype", async (req, res) => {
+  const Id = req.query.id
+  try {
+    const result = await db.query(`SELECT * FROM expensetype WHERE id =$1`,[Id]);
+    res.status(200).json({
+      status: "success",
+      data: result.rows,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: "failure",
+      message: "Database error",
+    });
+  }
+});
+
+// Get name & categorytype colummn from expensetype
 app.get("/expensename", async (req, res) => {
   try {
     const result = await db.query(`SELECT categorytype,name FROM expensetype`);
@@ -240,7 +302,28 @@ app.post("/newtype", async (req, res) => {
   }
 });
 
+// edit  expensetype
+app.put("/editexpensetype",async(req,res)=>{
+  const{id,categorytype,name}=req.body;
 
+    if (!id || !categorytype || !name) {
+    return res.status(400).json({ error: "id, category, and name are required" });
+  }
+  try {
+    const result = await db.query(`UPDATE expensetype 
+      SET categorytype =$1,name =$2 
+      WHERE id =$3 RETURNING *`,
+      [categorytype,name,id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "expensetype not found" });
+    }
+    res.status(200).json({ message: "expensetype updated successfully", data: result.rows[0] });;  
+  } catch (err) {
+console.log(err);
+res.status(500).json({ error: "Internal server error" })
+  }
+});
 
 // Delete expensetype
 app.delete("/type", async (req, res) => {
@@ -270,6 +353,8 @@ app.delete("/type", async (req, res) => {
 });
 
 
+
+
 // Get all expenses
 app.get("/expense", async (req, res) => {
   try {
@@ -287,6 +372,27 @@ app.get("/expense", async (req, res) => {
   }
 });
 
+//get single expenses by id
+app.get("/singleexpense",async(req,res) => {
+  const id =req.query.id;
+
+  try {
+ const result = await db.query(`SELECT * FROM expenses  WHERE id =$1`,[id]);
+ if(result.rowCount == 0){
+  res.status(400).json({message:"expense type is not found"})
+ }
+ res.status(200).json({
+  message:"success",
+  data:result.rows[0]
+ }) 
+  } catch (err){
+    console.log(err)
+    res.status(500).json({
+      message:"Internal sever error"
+    })
+    
+  }
+})
 
 
 // create new expense
@@ -307,7 +413,37 @@ app.post("/newexpense", async (req, res) => {
   }
 });
 
+// edit expenses
+app.put("/editexpenses",async(req,res)=>{
+  const{id,expensecategorytype,expensetype,description,amount}=req.body;
 
+  if(!id || !expensecategorytype || !expensetype || !description || !amount){
+    res.status(400).json({error:"id, category,categorytype, decription and are required"})
+  } try {
+    const result = await db.query(`UPDATE expenses 
+      SET expensecategorytype =$1, 
+      expensetype =$2, 
+      description =$3, 
+      amount=$4 
+      WHERE id =$5 RETURNING *`,
+      [expensecategorytype,expensetype,description,amount,id]);
+ 
+      console.log(result.rows[0])
+      if (result.rowCount === 0 ) {
+        res.status(400).json({
+          error:"expensetype not found"
+        })};
+        res.status(200).json({
+          message:"success",
+          data:result.rows[0]
+        }) 
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message:"Internal server error"
+    })
+  }
+})
 
 // Delete expenses
 

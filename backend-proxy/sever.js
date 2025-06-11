@@ -4,15 +4,17 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
 import cors from "cors"
+import env from "dotenv";
 
 // import  from 'cors'
 
+env.config()
 const app = express();
-const port = 3000;
-const API_URL = "http://localhost:4000";
+const port = process.env.port;
+const API_URL = process.env.API_URL;
 
 app.use(cors({
-  origin: 'http://localhost:5173'  // Allow your Vite/React frontend
+  origin: process.env.origin  // Allow your Vite/React frontend
 }));
 
 app.use(express.static("public"));

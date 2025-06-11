@@ -18,7 +18,7 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       console.log("Fetching category for id:", id);
-      const res = await axios.get(`http://localhost:3000/singlecategory?id=${id}`);
+      const res = await axios.get(`https://expense-manager-app-sever.onrender.com/singlecategory?id=${id}`);
       console.log("Category API response:", res.data);
       const category = res.data.data[0];
       setName(category.name ?? "");
@@ -35,7 +35,7 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("Making PUT request to:");
-      await axios.put(`http://localhost:3000/editcategory`, {
+      await axios.put(`https://expense-manager-app-sever.onrender.com/editcategory`, {
         id,
         name,
         description,

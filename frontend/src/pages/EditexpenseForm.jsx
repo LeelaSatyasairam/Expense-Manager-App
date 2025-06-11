@@ -37,7 +37,7 @@ export function EditExpenseForm() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get("http://localhost:3000/expensename"); 
+        const res = await axios.get("https://expense-manager-app-sever.onrender.comexpensename"); 
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
       setCategoryOptions(res.data.data);
       } catch (error) {
@@ -61,7 +61,7 @@ export function EditExpenseForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("http://localhost:3000/editexpenses", { expensecategorytype: categorytype, expensetype, description, amount,id });
+      await axios.put("https://expense-manager-app-sever.onrender.com/editexpenses", { expensecategorytype: categorytype, expensetype, description, amount,id });
       navigate("/expense");
     } catch (error) {
       console.error("Error creating category:", error);

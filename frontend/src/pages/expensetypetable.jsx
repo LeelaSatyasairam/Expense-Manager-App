@@ -47,7 +47,7 @@ export function ExpenseDataTable() {
     if (!confirmed) return;
 
     try {
-     const response = await fetch(`http://localhost:3000/type?id=${id}`, {
+     const response = await fetch(`https://expense-manager-app-sever.onrender.com/type?id=${id}`, {
      method: "DELETE",});
 
     
@@ -64,7 +64,7 @@ export function ExpenseDataTable() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("http://localhost:3000/type")
+    fetch("https://expense-manager-app-sever.onrender.com/type")
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

@@ -12,7 +12,7 @@ export function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:3000/register", { username, password })
+      await axios.post("https://expense-manager-app-sever.onrender.com/register", { username, password })
       alert("user register succesfull")
       navigate("/")
     } catch (error) {

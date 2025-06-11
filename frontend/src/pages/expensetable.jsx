@@ -46,7 +46,7 @@ export function ExpenseTable() {
     );
     if (!confirmed) return;
     try {
-      const response = await fetch(`http://localhost:3000/expense?id=${id}`, {
+      const response = await fetch(`https://expense-manager-app-sever.onrender.com/expense?id=${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete");
@@ -65,7 +65,7 @@ export function ExpenseTable() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("http://localhost:3000/expense")
+    fetch("https://expense-manager-app-sever.onrender.com/expense")
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

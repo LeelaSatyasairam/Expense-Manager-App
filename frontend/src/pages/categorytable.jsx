@@ -48,7 +48,7 @@ export function DataTableDemo() {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/data?id=${id}`, {
+      const response = await fetch(`https://expense-manager-app-sever.onrender.com/data?id=${id}`, {
         method: "DELETE",
       });
 
@@ -71,7 +71,7 @@ const handleEdit = (id) => {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
+    fetch("https://expense-manager-app-sever.onrender.com/categories")
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

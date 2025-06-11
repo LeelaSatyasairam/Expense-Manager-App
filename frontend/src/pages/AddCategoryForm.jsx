@@ -13,7 +13,7 @@ export function AddCategoryForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:3000/new", { name, description })
+      await axios.post("https://expense-manager-app-sever.onrender.com/new", { name, description })
       navigate("/categories")
     } catch (error) {
       console.error("Error creating category:", error)

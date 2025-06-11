@@ -19,7 +19,7 @@ export function EditExpenseForm() {
       try{
       console.log("Fetching expenses id:",id);
       const res = await axios.get(`http://localhost:3000/singleexpense?id=${id}`);
-       console.log("Category API response:", res.data);
+      console.log("Category API response:", res.data);
       const expenses = res.data.data;
       setCategorytype(expenses.expensecategorytype ?? "");
       setExpenseType(expenses.expensetype ?? "");
@@ -39,7 +39,7 @@ export function EditExpenseForm() {
       try {
         const res = await axios.get("http://localhost:3000/expensename"); 
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
-        setCategoryOptions(res.data.data);
+      setCategoryOptions(res.data.data);
       } catch (error) {
         console.error("Error fetching category types", error);
       }

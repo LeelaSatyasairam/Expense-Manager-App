@@ -28,11 +28,8 @@ useEffect(() => {
       alert("Failed to load category details");
     }
   };
-
   if (id) fetchData();
 }, [id]);
-
-
 
 const handleSubmit = async (e) => {
     e.preventDefault();

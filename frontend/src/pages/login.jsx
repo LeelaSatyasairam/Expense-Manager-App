@@ -7,26 +7,20 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export function LoginPage() {
     const [username, setName] = useState("")
     const [password, setDescription] = useState("")
-     const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
+    const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate()
-
     const handleSubmit = async (e) => {
-
-       e.preventDefault();
-  try {
-    
+    e.preventDefault();
+    try {
     const response = await axios.post("http://localhost:3000/login", {
       username,
       password,
     });
-
     const token = response.data.data[0].token; // ✅ Fix here
     const user =response.data.data[0].username //
-
-    if (token) {
-         // ✅ Store token in localStorage instead of cookie
+    if (token) { // ✅ Store token in localStorage instead of cookie
       localStorage.setItem("token", token);
       localStorage.setItem("username", user); // ✅ Store username
       navigate("/categories");
@@ -38,7 +32,6 @@ export function LoginPage() {
     setNote("username or password is invalid ")
   }
 };
-
     const handleRegister = () => {
         navigate("/register")
     }

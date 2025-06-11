@@ -45,18 +45,14 @@ export function ExpenseTable() {
       "Are you sure you want to delete this category?"
     );
     if (!confirmed) return;
-
     try {
       const response = await fetch(`http://localhost:3000/expense?id=${id}`, {
         method: "DELETE",
       });
-
-
-
       if (!response.ok) throw new Error("Failed to delete");
-
       // Remove from UI
       setData((prevData) => prevData.filter((item) => item.id !== id));
+      
     } catch (error) {
       console.error("Delete failed:", error);
       alert("Failed to delete category");
@@ -77,7 +73,7 @@ export function ExpenseTable() {
         }
       })
       .catch((err) => {
-        console.error("Error fetching expense categories:", err);
+      console.error("Error fetching expense categories:", err);
       });
   }, []);
 

@@ -1,5 +1,7 @@
-import { PrivateRoute } from "./pages/PrivateRoute"; // <-- import this
+// App.js
+import React from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { PrivateRoute } from "./pages/PrivateRoute";
 import { SidebarProvider } from "../components/ui/sidebar";
 import { AppSidebar } from "../components/app-sidebar";
 
@@ -11,9 +13,9 @@ import { AddExpenseTypeForm } from "./pages/AddexpenseTypeForm";
 import { EditExpenseTypeForm } from "./pages/EditexpenseTypeForm";
 import { ExpenseTable } from "./pages/expensetable";
 import { AddExpenseForm } from "./pages/AddexpenseForm";
-import { EditExpenseForm } from "./pages/EditexpenseForm";
-import { LoginPage } from "./pages/login"; // Add your login page here
-import { RegisterForm } from "./pages/register"; // Add your register page here
+import { EditExpenseForm } from "./pages/EditExpenseForm";
+import { LoginPage } from "./pages/login";
+import { RegisterForm } from "./pages/register";
 
 function AppLayout() {
   return (
@@ -38,7 +40,7 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterForm />} />
 
-        {/* Protected routes wrapped in PrivateRoute */}
+        {/* Protected routes */}
         <Route
           element={
             <PrivateRoute>
@@ -56,6 +58,9 @@ export default function App() {
           <Route path="/add-expense" element={<AddExpenseForm />} />
           <Route path="/edit-expense" element={<EditExpenseForm />} />
         </Route>
+
+        {/* 404 route */}
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </BrowserRouter>
   );

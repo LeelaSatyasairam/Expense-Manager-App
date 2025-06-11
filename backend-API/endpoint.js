@@ -19,7 +19,7 @@ const db = new pg.Client({
 });
 
 const app = express();
-const port = process.env.port;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

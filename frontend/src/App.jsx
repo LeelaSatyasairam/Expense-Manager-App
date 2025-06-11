@@ -32,7 +32,7 @@ function AppLayout() {
 
 export default function App() {
   return (
-    <BrowserRouter basename="/Expense-Manager-App">
+    <BrowserRouter>
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<LoginPage />} />

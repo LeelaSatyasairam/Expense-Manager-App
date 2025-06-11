@@ -7,14 +7,14 @@ export function AddExpenseTypeForm() {
   const [categorytype, setCategorytype] = useState(""); // selected value
   const [name, setName] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]); // NEW: list of categories
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
   // Fetch categories on mount
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get("https://expense-manager-app-sever.onrender.com/name");
+        const res = await axios.get(`${API_BASE_URL}/name`);
         setCategoryOptions(res.data.data); // assuming it's an array of { name: "..." }
       } catch (error) {
         console.error("Error fetching category types", error);
@@ -27,7 +27,7 @@ export function AddExpenseTypeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://expense-manager-app-sever.onrender.com/newtype", { categorytype, name });
+      await axios.post(`${API_BASE_URL}/newtype`, { categorytype, name });
       navigate("/type");
     } catch (error) {
       console.error("Error creating category:", error);

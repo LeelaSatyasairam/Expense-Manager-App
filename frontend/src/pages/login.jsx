@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { Button } from "../../components/ui/button"
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 
 export function LoginPage() {
@@ -11,12 +10,12 @@ export function LoginPage() {
     const [password, setDescription] = useState("")
     const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
     const [showPassword, setShowPassword] = useState(false);
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    const response = await axios.post(`${API_BASE}/login`, {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
       username,
       password,
     });

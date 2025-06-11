@@ -9,6 +9,7 @@ export function EditCategoryForm() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 
@@ -18,7 +19,7 @@ useEffect(() => {
   const fetchData = async () => {
     try {
       console.log("Fetching category for id:", id);
-      const res = await axios.get(`https://expense-manager-app-sever.onrender.com/singlecategory?id=${id}`);
+      const res = await axios.get(`${API_BASE_URL}/singlecategory?id=${id}`);
       console.log("Category API response:", res.data);
       const category = res.data.data[0];
       setName(category.name ?? "");
@@ -35,7 +36,7 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("Making PUT request to:");
-      await axios.put(`https://expense-manager-app-sever.onrender.com/editcategory`, {
+      await axios.put(`${API_BASE_URL}/editcategory`, {
         id,
         name,
         description,

@@ -11,14 +11,14 @@ export function EditExpenseTypeForm() {
   const id = searchParams.get("id");
   const navigate = useNavigate();
 
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
   // Fetch categories on mount
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get("https://expense-manager-app-sever.onrender.com/name");
+        const res = await axios.get(`${API_BASE_URL}/name`);
         setCategoryOptions(res.data.data); // assuming it's an array of { name: "..." }
       } catch (error) {
         console.error("Error fetching category types", error);
@@ -34,7 +34,7 @@ useEffect(()=>{
   const fetchData =async ()=>{
     try{
       console.log("Fetching expensetype id:",id);
-      const res = await axios.get(`https://expense-manager-app-sever.onrender.com/singletype?id=${id}`)
+      const res = await axios.get(`${API_BASE_URL}/singletype?id=${id}`)
       console.log("Category API response:", res.data);
       const expensetype = res.data.data[0];
       setCategorytype(expensetype.categorytype ?? "");
@@ -51,7 +51,7 @@ useEffect(()=>{
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put("https://expense-manager-app-sever.onrender.com/editexpensetype", { categorytype, name,id });
+      await axios.put(`${API_BASE_URL}/editexpensetype`, { categorytype, name,id });
       navigate("/type");
     } catch (error) {
       console.error("Error Editing category type:", error);

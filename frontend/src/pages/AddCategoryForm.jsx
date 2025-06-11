@@ -7,13 +7,13 @@ export function AddCategoryForm() {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const navigate = useNavigate()
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("https://expense-manager-app-sever.onrender.com/new", { name, description })
+      await axios.post(`${API_BASE_URL}/new`, { name, description })
       navigate("/categories")
     } catch (error) {
       console.error("Error creating category:", error)

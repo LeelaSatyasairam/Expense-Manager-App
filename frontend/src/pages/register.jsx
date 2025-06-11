@@ -8,11 +8,12 @@ export function RegisterForm() {
   const [password, setDescription] = useState("")
   const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
   const navigate = useNavigate()
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post("https://expense-manager-app-sever.onrender.com/register", { username, password })
+      await axios.post(`${API_BASE_URL}/register`, { username, password })
       alert("user register succesfull")
       navigate("/")
     } catch (error) {

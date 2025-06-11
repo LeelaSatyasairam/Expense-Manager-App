@@ -38,6 +38,7 @@ export function ExpenseTable() {
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
@@ -46,7 +47,7 @@ export function ExpenseTable() {
     );
     if (!confirmed) return;
     try {
-      const response = await fetch(`https://expense-manager-app-sever.onrender.com/expense?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/expense?id=${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete");
@@ -65,7 +66,7 @@ export function ExpenseTable() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("https://expense-manager-app-sever.onrender.com/expense")
+    fetch(`${API_BASE_URL}/expense`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

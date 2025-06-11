@@ -38,7 +38,7 @@ export function ExpenseDataTable() {
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -47,7 +47,7 @@ export function ExpenseDataTable() {
     if (!confirmed) return;
 
     try {
-     const response = await fetch(`https://expense-manager-app-sever.onrender.com/type?id=${id}`, {
+     const response = await fetch(`${API_BASE_URL}/type?id=${id}`, {
      method: "DELETE",});
 
     
@@ -64,7 +64,7 @@ export function ExpenseDataTable() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch("https://expense-manager-app-sever.onrender.com/type")
+    fetch(`${API_BASE_URL}/type`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

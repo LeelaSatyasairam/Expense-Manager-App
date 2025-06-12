@@ -24,10 +24,7 @@ export function LoginPage() {
     if (token) { // ✅ Store token in localStorage instead of cookie
       localStorage.setItem("token", token);
       localStorage.setItem("username", user); // ✅ Store username
-      response.status(200).json({message:"Success",
-        data:response.data.data
-      })
-      navigate("/categories");
+        navigate("/categories");
     } else {
       alert("Login failed: Token not found");
     }

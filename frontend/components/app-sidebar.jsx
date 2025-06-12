@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 
 import {
@@ -16,39 +16,27 @@ import {
   SidebarRail,
 } from "../components/ui/sidebar";
 
-// Sample navigation data
 const data = {
   navMain: [
     {
       title: "Expense Manager",
-      url: "",
       items: [
-        {
-          title: "Expense Categories",
-          url: "/categories",
-        },
-        {
-          title: "Expense Types",
-          url: "/type",
-        },
-        {
-          title: "Expenses",
-          url: "/expense",
-        },
+        { title: "Expense Categories", url: "/categories" },
+        { title: "Expense Types", url: "/type" },
+        { title: "Expenses", url: "/expense" },
       ],
     },
   ],
 };
 
 export function AppSidebar({ ...props }) {
-  const username = localStorage.getItem("username") ;
+  const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
-  // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    navigate("/"); // Redirect to login page
+    navigate("/");
   };
 
   return (
@@ -56,15 +44,11 @@ export function AppSidebar({ ...props }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* Use a div instead of anchor to wrap username and logout button */}
             <div className="flex items-center justify-between px-4 py-2 cursor-default select-none">
-              {/* Username and welcome text */}
               <div className="flex flex-col">
                 <span className="font-medium text-2xl">{username}</span>
                 <span className="text-sm underline">Welcome to Expense Manager</span>
               </div>
-
-              {/* Logout button */}
               <button
                 onClick={handleLogout}
                 className="text-sidebar-primary-foreground hover:text-red-600 transition-colors"
@@ -77,29 +61,26 @@ export function AppSidebar({ ...props }) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
+                  <span className="font-medium cursor-default">{item.title}</span>
                 </SidebarMenuButton>
-                {item.items?.length ? (
+                {item.items?.length > 0 && (
                   <SidebarMenuSub>
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={subItem.isActive}>
-                          <a href={subItem.url}>{subItem.title}</a>
+                        <SidebarMenuSubButton asChild>
+                          <Link to={subItem.url}>{subItem.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
                   </SidebarMenuSub>
-                ) : null}
+                )}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>

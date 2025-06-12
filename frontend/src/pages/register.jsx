@@ -18,7 +18,7 @@ export function RegisterForm() {
       navigate("/")
     } catch (error) {
       console.error("Error creating category:", error)
-      setNote("Please enter a unique username & password"); // ✅ Update the state instead of DOM 1000);
+      setNote("Please enter a unique username & password should have aleast 10 characters"); // ✅ Update the state instead of DOM 1000);
     }
   }
 

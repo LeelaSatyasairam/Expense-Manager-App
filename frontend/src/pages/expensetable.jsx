@@ -139,7 +139,7 @@ export function ExpenseTable() {
 
         return (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal />
@@ -204,7 +204,7 @@ export function ExpenseTable() {
         />
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDown />
             </Button>

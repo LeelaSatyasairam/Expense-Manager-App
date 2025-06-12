@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { data, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { Button } from "../../components/ui/button"
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -24,6 +24,9 @@ export function LoginPage() {
     if (token) { // ✅ Store token in localStorage instead of cookie
       localStorage.setItem("token", token);
       localStorage.setItem("username", user); // ✅ Store username
+      response.status(200).json({message:"Success",
+        data:response.data.data
+      })
       navigate("/categories");
     } else {
       alert("Login failed: Token not found");

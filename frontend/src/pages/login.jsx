@@ -9,12 +9,12 @@ export function LoginPage() {
     const [password, setDescription] = useState("")
     const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
     const [showPassword, setShowPassword] = useState(false);
-
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    const response = await axios.post("http://localhost:3000/login", {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
       username,
       password,
     });

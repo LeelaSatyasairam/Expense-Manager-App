@@ -196,7 +196,7 @@ const handleEdit = (id) => {
           className="max-w-sm"
         />
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDown />
             </Button>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 
 import {
@@ -21,7 +21,7 @@ const data = {
   navMain: [
     {
       title: "Expense Manager",
-      url: "", // No URL for main heading; you can leave empty or '#'
+      url: "",
       items: [
         {
           title: "Expense Categories",
@@ -41,9 +41,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
-  const username = localStorage.getItem("username");
+  const username = localStorage.getItem("username") ;
   const navigate = useNavigate();
-  const location = useLocation();
 
   // Logout handler
   const handleLogout = () => {
@@ -57,11 +56,15 @@ export function AppSidebar({ ...props }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
+            {/* Use a div instead of anchor to wrap username and logout button */}
             <div className="flex items-center justify-between px-4 py-2 cursor-default select-none">
+              {/* Username and welcome text */}
               <div className="flex flex-col">
                 <span className="font-medium text-2xl">{username}</span>
                 <span className="text-sm underline">Welcome to Expense Manager</span>
               </div>
+
+              {/* Logout button */}
               <button
                 onClick={handleLogout}
                 className="text-sidebar-primary-foreground hover:text-red-600 transition-colors"
@@ -74,37 +77,24 @@ export function AppSidebar({ ...props }) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                {/* Main menu button: if you want it clickable, else just show title */}
                 <SidebarMenuButton asChild>
-                  {item.url ? (
-                    <Link
-                      to={item.url}
-                      className={`font-medium ${
-                        location.pathname === item.url ? "text-blue-600" : ""
-                      }`}
-                    >
-                      {item.title}
-                    </Link>
-                  ) : (
-                    <span className="font-medium cursor-default">{item.title}</span>
-                  )}
+                  <a href={item.url} className="font-medium">
+                    {item.title}
+                  </a>
                 </SidebarMenuButton>
-
                 {item.items?.length ? (
                   <SidebarMenuSub>
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton
                           asChild
-                          isActive={location.pathname === subItem.url}
-                        >
-                          <Link to={subItem.url}>{subItem.title}</Link>
+                          isActive={subItem.isActive}>
+                          <a href={subItem.url}>{subItem.title}</a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
@@ -115,7 +105,6 @@ export function AppSidebar({ ...props }) {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-
       <SidebarRail />
     </Sidebar>
   );

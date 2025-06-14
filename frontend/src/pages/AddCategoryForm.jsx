@@ -8,16 +8,16 @@ export function AddCategoryForm() {
   const [description, setDescription] = useState("")
   const navigate = useNavigate()
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+  const personid = localStorage.getItem("personid");
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post(`${API_BASE_URL}/new`, { name, description })
+      await axios.post(`${API_BASE_URL}/new`, { name, description,personid })
       navigate("/categories")
     } catch (error) {
       console.error("Error creating category:", error)
-      alert("Failed to create category")
+      navigate("/categories")
     }
   }
 

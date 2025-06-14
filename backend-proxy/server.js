@@ -50,7 +50,8 @@ try {
 // Get all expense categories
 app.get("/categories", async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/categories`);
+    const{ personid } = req.query
+    const response = await axios.get(`${API_URL}/categories?personid=${personid}`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {
@@ -75,7 +76,8 @@ app.get("/singlecategory", async (req, res) => {
 app.get("/name", async (req, res) => {
 
   try {
-    const response = await axios.get(`${API_URL}/name`);
+    const{ personid } = req.query
+    const response = await axios.get(`${API_URL}/name?personid=${personid}`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {
@@ -123,7 +125,8 @@ app.delete("/data", async (req, res) => {
 // Get all expense type
 app.get("/type", async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/type`);
+    const{ personid } = req.query
+    const response = await axios.get(`${API_URL}/type?personid=${personid}`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {
@@ -146,7 +149,8 @@ app.get("/singletype", async (req, res) => {
 // Get name colummn from expense type
 app.get("/expensename", async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/expensename`);
+    const{ personid } = req.query
+    const response = await axios.get(`${API_URL}/expensename?personid=${personid}`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {
@@ -201,7 +205,8 @@ app.delete("/type", async (req, res) => {
 
 app.get("/expense", async (req, res) => {
   try {
-    const response = await axios.get(`${API_URL}/expense`);
+    const{ personid } = req.query
+    const response = await axios.get(`${API_URL}/expense?personid=${personid}`);
     console.log(response);
     res.status(200).json(response.data );
   } catch (error) {
@@ -211,8 +216,9 @@ app.get("/expense", async (req, res) => {
 
 // Get single expense 
 app.get("/singleexpense",async(req,res)=>{
-const id = req.query.id;
+
 try {
+  const {id} = req.query;
   const response = await axios.get(`${API_URL}/singleexpense?id=${id}`)
   console.log(response);
   res.status(200).json(response.data );

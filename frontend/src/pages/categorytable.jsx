@@ -39,7 +39,7 @@ export function DataTableDemo() {
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  
+  const personid = localStorage.getItem("personid");
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -71,7 +71,7 @@ const handleEdit = (id) => {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch(`${API_BASE_URL}/categories`)
+    fetch(`${API_BASE_URL}/categories?personid=${personid}`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {

@@ -13,7 +13,8 @@ export function EditExpenseForm() {
   const id = searchParams.get("id")
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+  const personid = localStorage.getItem("personid");
+  
   // Fetch by Id
   useEffect(()=>{
     const fetchData =async()=>{
@@ -38,7 +39,7 @@ export function EditExpenseForm() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/expensename`); 
+        const res = await axios.get(`${API_BASE_URL}/expensename?personid=${personid}`); 
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
       setCategoryOptions(res.data.data);
       } catch (error) {
@@ -84,7 +85,7 @@ export function EditExpenseForm() {
         className="shadow-md border rounded-2xl p-6 w-full max-w-md"
         style={{ backgroundColor: "var(--card)", color: "var(--card-foreground)", borderColor: "var(--border)" }}
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Add New expense</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Edit expense</h1>
         <form onSubmit={handleSubmit}>
           <label className="block mb-1 font-medium">Category type</label>
           <select

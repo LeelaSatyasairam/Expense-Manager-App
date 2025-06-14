@@ -39,7 +39,7 @@ export function ExpenseTable() {
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+  const personid = localStorage.getItem("personid");
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -66,11 +66,12 @@ export function ExpenseTable() {
 
   // Fetch data from backend
   useEffect(() => {
-    fetch(`${API_BASE_URL}/expense`)
+    fetch(`${API_BASE_URL}/expense?personid=${personid}`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {
           setData(resData.data);
+           console.log(resData.data)
         }
       })
       .catch((err) => {

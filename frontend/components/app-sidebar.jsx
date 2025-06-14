@@ -36,6 +36,7 @@ export function AppSidebar({ ...props }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("personid");
     navigate("/");
   };
 

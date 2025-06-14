@@ -11,11 +11,12 @@ export function AddExpenseForm() {
   const [amount, setAmount] = useState("");
   const navigate = useNavigate();
  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+ const personid = localStorage.getItem("personid");
   // Fetch categories & expense types on mount
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/expensename`); 
+        const res = await axios.get(`${API_BASE_URL}/expensename?personid=${personid}`,); 
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
         setCategoryOptions(res.data.data);
       } catch (error) {
@@ -37,11 +38,11 @@ export function AddExpenseForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/newexpense`, { expensecategorytype: categorytype, expensetype, description, amount });
+      await axios.post(`${API_BASE_URL}/newexpense`, { expensecategorytype: categorytype, expensetype, description, amount,personid });
       navigate("/expense");
     } catch (error) {
       console.error("Error creating category:", error);
-      alert("Failed to create category");
+       navigate("/expense");
     }
   };
 

@@ -112,8 +112,9 @@ app.post("/register",async(req,res) => {
 
 // Get all expense categories
 app.get("/categories", async (req, res) => {
+  const personid =req.query.personid
   try {
-    const result = await db.query(`SELECT * FROM expensecategeries`);
+    const result = await db.query(`SELECT * FROM expensecategeries WHERE personid =$1`,[personid]);
     res.status(200).json({
       status: "success",
       data: result.rows,
@@ -147,8 +148,9 @@ app.get("/singlecategory", async (req, res) => {
 
 // Get name colummn from expense categories
 app.get("/name", async (req, res) => {
+  const personid =req.query.personid;
   try {
-    const result = await db.query(`SELECT name FROM expensecategeries`);
+    const result = await db.query(`SELECT name FROM expensecategeries WHERE personid =$1`,[personid]);
     res.status(200).json({
       status: "success",
       data: result.rows,
@@ -164,9 +166,9 @@ app.get("/name", async (req, res) => {
 
 // create new expense categories
 app.post("/new", async (req, res) => {
-  const {name,description} = req.body
+  const {name,description,personid} = req.body
   try {
-    const result = await db.query(`INSERT INTO expensecategeries(name, description) VALUES ($1, $2) RETURNING *`,[name,description]);
+    const result = await db.query(`INSERT INTO expensecategeries(name, description,personid) VALUES ($1, $2,$3) RETURNING *`,[name,description,personid]);
     res.status(201).json({
       status: "success",
       data: result.rows[0],
@@ -237,8 +239,9 @@ app.delete("/data", async (req, res) => {
 
 // Get all expensetype
 app.get("/type", async (req, res) => {
+ const personid =req.query.personid
   try {
-    const result = await db.query(`SELECT * FROM expensetype`);
+    const result = await db.query(`SELECT * FROM expensetype WHERE personid =$1`,[personid]);
     res.status(200).json({
       status: "success",
       data: result.rows,
@@ -272,14 +275,15 @@ app.get("/singletype", async (req, res) => {
 
 // Get name & categorytype colummn from expensetype
 app.get("/expensename", async (req, res) => {
+  const personid =req.query.personid
   try {
-    const result = await db.query(`SELECT categorytype,name FROM expensetype`);
+    const result = await db.query(`SELECT categorytype,name FROM expensetype WHERE personid=$1`,[personid]);
     res.status(200).json({
       status: "success",
       data: result.rows,
     });
   } catch (err) {
-    console.log(err);
+    console.log(err); 
     res.status(500).json({
       status: "failure",
       message: "Database error",
@@ -289,9 +293,9 @@ app.get("/expensename", async (req, res) => {
 
 // create new expensetype
 app.post("/newtype", async (req, res) => {
-  const {categorytype,name} = req.body
+  const {categorytype,name,personid} = req.body
   try {
-    const result = await db.query(`INSERT INTO expensetype(categorytype,name) VALUES ($1, $2) RETURNING *`,[categorytype,name]);
+    const result = await db.query(`INSERT INTO expensetype(categorytype,name,personid) VALUES ($1, $2,$3) RETURNING *`,[categorytype,name,personid]);
     res.status(201).json({
       status: "success",
       data: result.rows[0],
@@ -360,8 +364,9 @@ app.delete("/type", async (req, res) => {
 
 // Get all expenses
 app.get("/expense", async (req, res) => {
+  const personid =req.query.personid
   try {
-    const result = await db.query(`SELECT * FROM expenses`);
+    const result = await db.query(`SELECT * FROM expenses WHERE personid =$1`,[personid]);
     res.status(200).json({
       status: "success",
       data: result.rows,
@@ -378,7 +383,6 @@ app.get("/expense", async (req, res) => {
 //get single expenses by id
 app.get("/singleexpense",async(req,res) => {
   const id =req.query.id;
-
   try {
  const result = await db.query(`SELECT * FROM expenses  WHERE id =$1`,[id]);
  if(result.rowCount == 0){
@@ -400,9 +404,9 @@ app.get("/singleexpense",async(req,res) => {
 
 // create new expense
 app.post("/newexpense", async (req, res) => {
-  const {expensecategorytype,expensetype,description,amount} = req.body
+  const {expensecategorytype,expensetype,description,amount,personid} = req.body
   try {
-    const result = await db.query(`INSERT INTO expenses (expensecategorytype,expensetype,description,amount) VALUES ($1, $2,$3,$4) RETURNING *`,[expensecategorytype,expensetype,description,amount]);
+    const result = await db.query(`INSERT INTO expenses (expensecategorytype,expensetype,description,amount,personid) VALUES ($1, $2,$3,$4,$5) RETURNING *`,[expensecategorytype,expensetype,description,amount,personid]);
     res.status(201).json({
       status: "success",
       data: result.rows[0],

@@ -10,7 +10,7 @@ export function EditExpenseTypeForm() {
   const [searchParams] = useSearchParams()
   const id = searchParams.get("id");
   const navigate = useNavigate();
-
+  const personid = localStorage.getItem("personid");
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -18,7 +18,7 @@ export function EditExpenseTypeForm() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/name`);
+        const res = await axios.get(`${API_BASE_URL}/name?personid=${personid}`);
         setCategoryOptions(res.data.data); // assuming it's an array of { name: "..." }
       } catch (error) {
         console.error("Error fetching category types", error);
@@ -68,7 +68,7 @@ useEffect(()=>{
       style={{ backgroundColor: "var(--background)", color: "var(--foreground)" }}>
       <div className="shadow-md border rounded-2xl p-6 w-full max-w-md"
         style={{ backgroundColor: "var(--card)", color: "var(--card-foreground)", borderColor: "var(--border)" }}>
-        <h1 className="text-2xl font-bold mb-4 text-center">Add New expense type</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Edit expense type</h1>
         <form onSubmit={handleEdit}>
           <label className="block mb-1 font-medium">Category type</label>
           <select

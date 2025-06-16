@@ -43,7 +43,7 @@ export function ExpenseTable() {
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this category?"
+      "Are you sure you want to delete this expense ?"
     );
     if (!confirmed) return;
     try {
@@ -53,29 +53,29 @@ export function ExpenseTable() {
       if (!response.ok) throw new Error("Failed to delete");
       // Remove from UI
       setData((prevData) => prevData.filter((item) => item.id !== id));
-      
+
     } catch (error) {
       console.error("Delete failed:", error);
-      alert("Failed to delete category");
+      alert("Failed to delete expense");
     }
   };
 
-  const handleEdit =(id)=>{
+  const handleEdit = (id) => {
     navigate(`/edit-expense?id=${id}`)
   }
 
   // Fetch data from backend
   useEffect(() => {
-    fetch(`${API_BASE_URL}/expense?personid=${personid}`)
+    fetch(`${API_BASE_URL}/expenses/${personid}`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {
           setData(resData.data);
-           console.log(resData.data)
+          console.log(resData.data)
         }
       })
       .catch((err) => {
-      console.error("Error fetching expense categories:", err);
+        console.error("Error fetching expense:", err);
       });
   }, []);
 
@@ -190,7 +190,7 @@ export function ExpenseTable() {
 
   return (
     <div className="w-full p-20">
-       <div className="flex justify-between  mt-[30px] ">
+      <div className="flex justify-between  mt-[30px] ">
         <Button >Expenses </Button>
         <Button onClick={() => navigate("/add-expense")}>Add expense </Button>
       </div>

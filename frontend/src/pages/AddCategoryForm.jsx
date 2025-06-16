@@ -13,15 +13,16 @@ export function AddCategoryForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post(`${API_BASE_URL}/new`, { name, description,personid })
+      await axios.post(`${API_BASE_URL}/category-new`, { name, description, personid })
       navigate("/categories")
+      alert("category is added Successful")
     } catch (error) {
       console.error("Error creating category:", error)
-      navigate("/categories")
+      alert("failed to add category")
     }
   }
 
-  
+
   const handleCancel = () => {
     navigate("/categories")
   }
@@ -58,11 +59,11 @@ export function AddCategoryForm() {
           </div>
           <div className="mb-4">
             <label className="block mb-1 font-medium">Description</label>
-             <input
+            <input
               type="text"
-               value={description}
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
+              className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required
               style={{
                 backgroundColor: "var(--input)",

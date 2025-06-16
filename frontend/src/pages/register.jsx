@@ -6,7 +6,7 @@ import { Button } from "../../components/ui/button"
 export function RegisterForm() {
   const [username, setName] = useState("")
   const [password, setDescription] = useState("")
-  const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
+  const [note, setNote] = useState("");
   const navigate = useNavigate()
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -17,8 +17,8 @@ export function RegisterForm() {
       alert("user register succesfull")
       navigate("/")
     } catch (error) {
-      console.error("Error creating category:", error)
-      setNote("Please enter a unique username & password should have aleast 10 characters"); // ✅ Update the state instead of DOM 1000);
+      console.error("Error in register :", error)
+      setNote("Please enter a unique username & password should have aleast 10 characters"); 
     }
   }
 

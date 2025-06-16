@@ -15,8 +15,8 @@ export function AddExpenseTypeForm() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/name?personid=${personid}`,);
-        setCategoryOptions(res.data.data); // assuming it's an array of { name: "..." }
+        const res = await axios.get(`${API_BASE_URL}/categories/${personid}`,);
+        setCategoryOptions(res.data.data);
       } catch (error) {
         console.error("Error fetching category types", error);
       }
@@ -28,11 +28,13 @@ export function AddExpenseTypeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/newtype`, { categorytype, name,personid });
+      await axios.post(`${API_BASE_URL}/expensetype-new`, { categorytype, name, personid });
       navigate("/type");
+      alert("expense type added successful")
     } catch (error) {
-      console.error("Error creating category:", error);
-      navigate("/type");
+      console.error("Error creating expense type:", error);
+      alert("failed to add expense type")
+
     }
   };
 
@@ -47,7 +49,7 @@ export function AddExpenseTypeForm() {
         style={{ backgroundColor: "var(--card)", color: "var(--card-foreground)", borderColor: "var(--border)" }}>
         <h1 className="text-2xl font-bold mb-4 text-center">Add New expense type</h1>
         <form onSubmit={handleSubmit}>
-           <label className="block mb-1 font-medium">Category type</label>
+          <label className="block mb-1 font-medium">Category type</label>
           <select
             value={categorytype}
             onChange={(e) => setCategorytype(e.target.value)}

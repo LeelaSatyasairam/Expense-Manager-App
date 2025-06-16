@@ -4,19 +4,20 @@ import axios from "axios";
 import { Button } from "../../components/ui/button";
 
 export function AddExpenseForm() {
-  const [categorytype, setCategorytype] = useState(""); 
+  const [categorytype, setCategorytype] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]); // full data: { categorytype, name }
   const [expensetype, setExpenseType] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const navigate = useNavigate();
- const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
- const personid = localStorage.getItem("personid");
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const personid = localStorage.getItem("personid");
+
   // Fetch categories & expense types on mount
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/expensename?personid=${personid}`,); 
+        const res = await axios.get(`${API_BASE_URL}/expensetypes-name-type?personid=${personid}`,);
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
         setCategoryOptions(res.data.data);
       } catch (error) {
@@ -38,11 +39,12 @@ export function AddExpenseForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/newexpense`, { expensecategorytype: categorytype, expensetype, description, amount,personid });
+      await axios.post(`${API_BASE_URL}/expense-new`, { expensecategorytype: categorytype, expensetype, description, amount, personid });
+      alert("successfully added expense")
       navigate("/expense");
     } catch (error) {
-      console.error("Error creating category:", error);
-       navigate("/expense");
+      console.error("Error creating expense:", error);
+      alert("failed to add exepnse")
     }
   };
 
@@ -68,9 +70,8 @@ export function AddExpenseForm() {
               setCategorytype(e.target.value);
               setExpenseType(""); // Reset expense type on category change
             }}
-            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${
-              categorytype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
-            }`}
+            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${categorytype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
+              }`}
             required
             style={{ border: "1px solid var(--border)", colorScheme: "dark" }}
           >
@@ -86,9 +87,8 @@ export function AddExpenseForm() {
           <select
             value={expensetype}
             onChange={(e) => setExpenseType(e.target.value)}
-            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${
-              expensetype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
-            }`}
+            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${expensetype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
+              }`}
             required
             disabled={!categorytype}
             style={{ border: "1px solid var(--border)", colorScheme: "dark" }}

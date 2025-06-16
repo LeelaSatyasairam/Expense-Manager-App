@@ -11,40 +11,37 @@ export function EditCategoryForm() {
   const id = searchParams.get("id");
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+  // Fetch category data by ID
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching category for id:", id);
+        const res = await axios.get(`${API_BASE_URL}/category?id=${id}`);
+        console.log("Category API response:", res.data);
+        const category = res.data.data[0];
+        setName(category.name ?? "");
+        setDescription(category.description ?? "");
+      } catch (err) {
+        console.error("Failed to load category", err);
+        alert("Failed to load category details");
+      }
+    };
+    if (id) fetchData();
+  }, [id]);
 
-
- // Fetch category data by ID
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      console.log("Fetching category for id:", id);
-      const res = await axios.get(`${API_BASE_URL}/singlecategory?id=${id}`);
-      console.log("Category API response:", res.data);
-      const category = res.data.data[0];
-      setName(category.name ?? "");
-      setDescription(category.description ?? "");
-    } catch (err) {
-      console.error("Failed to load category", err);
-      alert("Failed to load category details");
-    }
-  };
-  if (id) fetchData();
-}, [id]);
-
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Making PUT request to:");
-      await axios.put(`${API_BASE_URL}/editcategory`, {
+      await axios.put(`${API_BASE_URL}/category-edit`, {
         id,
         name,
         description,
       });
       navigate("/categories")
+      alert("successfully to edited category")
     } catch (error) {
       console.error("Error updating category:", error);
-      navigate("/categories")
+      alert("failed to edit category")
     }
   };
 
@@ -84,11 +81,11 @@ const handleSubmit = async (e) => {
           </div>
           <div className="mb-4">
             <label className="block mb-1 font-medium">Description</label>
-             <input
+            <input
               type="text"
-               value={description || ""}
+              value={description || ""}
               onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
+              className="w-full rounded-lg p-2 focus:outline-none focus:ring-2"
               required
               style={{
                 backgroundColor: "var(--input)",

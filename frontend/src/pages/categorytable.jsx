@@ -40,6 +40,7 @@ export function DataTableDemo() {
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const personid = localStorage.getItem("personid");
+
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
@@ -48,7 +49,7 @@ export function DataTableDemo() {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/data?id=${id}`, {
+      const response = await fetch(`${API_BASE_URL}/category?id=${id}`, {
         method: "DELETE",
       });
 
@@ -65,13 +66,13 @@ export function DataTableDemo() {
 
   // Edit handler: navigate to edit category form
 
-const handleEdit = (id) => {
-  navigate(`/edit-category?id=${id}`);
-};
+  const handleEdit = (id) => {
+    navigate(`/edit-category?id=${id}`);
+  };
 
-  // Fetch data from backend
+  // Fetch categories from backend
   useEffect(() => {
-    fetch(`${API_BASE_URL}/categories?personid=${personid}`)
+    fetch(`${API_BASE_URL}/categories/${personid}`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {
@@ -147,7 +148,7 @@ const handleEdit = (id) => {
                 Copy ID
               </DropdownMenuItem>
               <DropdownMenuItem
-               onClick={() => handleEdit(category.id)}>
+                onClick={() => handleEdit(category.id)}>
                 Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -182,10 +183,10 @@ const handleEdit = (id) => {
 
   return (
     <div className="w-full p-20">
-    <div className="flex justify-between mt-[30px]">
-  <Button>Expense Category</Button>
-  <Button onClick={() => navigate("/add-category")}>Add category</Button>
-</div>
+      <div className="flex justify-between mt-[30px]">
+        <Button>Expense Category</Button>
+        <Button onClick={() => navigate("/add-category")}>Add category</Button>
+      </div>
       <div className="flex items-center py-4 ">
         <Input
           placeholder="Filter name..."
@@ -228,9 +229,9 @@ const handleEdit = (id) => {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 ))}
               </TableRow>

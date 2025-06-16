@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate,useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/ui/button";
 
 export function EditExpenseForm() {
-  const [categorytype, setCategorytype] = useState(""); 
+  const [categorytype, setCategorytype] = useState("");
   const [categoryOptions, setCategoryOptions] = useState([]); // full data: { categorytype, name }
   const [expensetype, setExpenseType] = useState("");
   const [description, setDescription] = useState("");
@@ -14,34 +14,34 @@ export function EditExpenseForm() {
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const personid = localStorage.getItem("personid");
-  
+
   // Fetch by Id
-  useEffect(()=>{
-    const fetchData =async()=>{
-      try{
-      console.log("Fetching expenses id:",id);
-      const res = await axios.get(`${API_BASE_URL}/singleexpense?id=${id}`);
-      console.log("Category API response:", res.data);
-      const expenses = res.data.data;
-      setCategorytype(expenses.expensecategorytype ?? "");
-      setExpenseType(expenses.expensetype ?? "");
-      setDescription(expenses.description ?? "");
-      setAmount(expenses.amount ?? "");
-      }catch(err){
-      console.error("Failed to load expensetype", err);
-      alert("Failed to load category details");
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching expenses id:", id);
+        const res = await axios.get(`${API_BASE_URL}/expense?id=${id}`);
+        console.log("Category API response:", res.data);
+        const expenses = res.data.data;
+        setCategorytype(expenses.expensecategorytype ?? "");
+        setExpenseType(expenses.expensetype ?? "");
+        setDescription(expenses.description ?? "");
+        setAmount(expenses.amount ?? "");
+      } catch (err) {
+        console.error("Failed to load expense", err);
+        alert("Failed to load expense details");
+      }
     };
-    if(id)fetchData();
-  },[id]);
+    if (id) fetchData();
+  }, [id]);
 
   // Fetch categories & expense types on mount
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/expensename?personid=${personid}`); 
+        const res = await axios.get(`${API_BASE_URL}/expensetypes-name-type?personid=${personid}`);
         // Expecting: [{ categorytype: "...", name: "..." }, ...]
-      setCategoryOptions(res.data.data);
+        setCategoryOptions(res.data.data);
       } catch (error) {
         console.error("Error fetching category types", error);
       }
@@ -63,11 +63,12 @@ export function EditExpenseForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${API_BASE_URL}/editexpenses`, { expensecategorytype: categorytype, expensetype, description, amount,id });
+      await axios.put(`${API_BASE_URL}/expense-edit`, { expensecategorytype: categorytype, expensetype, description, amount, id });
+      alert("successfully  edited expense");
       navigate("/expense");
     } catch (error) {
-      console.error("Error creating category:", error);
-      navigate("/expense");////again to visit to solve
+      console.error("Error editing expense:", error);
+      alert("failed to edit expense")
     }
   };
 
@@ -94,9 +95,8 @@ export function EditExpenseForm() {
               setCategorytype(e.target.value);
               setExpenseType(""); // Reset expense type on category change
             }}
-            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${
-              categorytype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
-            }`}
+            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${categorytype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
+              }`}
             required
             style={{ border: "1px solid var(--border)", colorScheme: "dark" }}
           >
@@ -112,9 +112,8 @@ export function EditExpenseForm() {
           <select
             value={expensetype || ""}
             onChange={(e) => setExpenseType(e.target.value)}
-            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${
-              expensetype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
-            }`}
+            className={`w-full rounded-lg p-2 focus:outline-none focus:ring-2 appearance-none ${expensetype ? "bg-black text-white" : "bg-[var(--input)] text-[var(--foreground)]"
+              }`}
             required
             disabled={!categorytype}
             style={{ border: "1px solid var(--border)", colorScheme: "dark" }}

@@ -10,6 +10,7 @@ export function LoginPage() {
     const [note, setNote] = useState(""); // ✅ Fix: Add a state variable
     const [showPassword, setShowPassword] = useState(false);
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const navigate = useNavigate()
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +19,14 @@ export function LoginPage() {
       username,
       password,
     });
-    const token = response.data.data[0].token; // ✅ Fix here
-    const user =response.data.data[0].username //
-    const personid =response.data.data[0].personid
-    if (token) { // ✅ Store token in localStorage instead of cookie
-      localStorage.setItem("token", token);
-      localStorage.setItem("username", user); // ✅ Store username
-      localStorage.setItem("personid",personid)
+    const token = response.data.data[0].token;
+    const name = response.data.data[0].username;
+    const personid = response.data.data[0].personid;
+    
+    if (token) {                                   // ✅ Store in localStorage instead of cookie
+      localStorage.setItem("token", token);       // ✅ Store token
+      localStorage.setItem("name", name);         // ✅ Store name
+      localStorage.setItem("personid",personid)   // ✅ Store personid
       navigate("/categories");
     } else {
       alert("Login failed: Token not found");

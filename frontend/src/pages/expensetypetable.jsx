@@ -39,51 +39,47 @@ export function ExpenseDataTable() {
   const [rowSelection, setRowSelection] = useState({});
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-   const personid = localStorage.getItem("personid");
+  const personid = localStorage.getItem("personid");
+
   // Delete handler: remove item from state
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this category?"
+      "Are you sure you want to delete this expense type?"
     );
     if (!confirmed) return;
-
     try {
-     const response = await fetch(`${API_BASE_URL}/type?id=${id}`, {
-     method: "DELETE",});
-
-    
-
+      const response = await fetch(`${API_BASE_URL}/expensetype?id=${id}`, {
+        method: "DELETE",
+      });
       if (!response.ok) throw new Error("Failed to delete");
-  
+
       // Remove from UI
       setData((prevData) => prevData.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Delete failed:", error);
-      alert("Failed to delete category");
+      alert("Failed to delete expense type");
     }
   };
 
-  // Fetch data from backend
+  // Fetch expensetypes from backend
   useEffect(() => {
-    fetch(`${API_BASE_URL}/type?personid=${personid}`)
+    fetch(`${API_BASE_URL}/expensetypes/${personid}`)
       .then((res) => res.json())
       .then((resData) => {
         if (resData.status === "success") {
           setData(resData.data);
-           console.log(resData.data)
+          console.log(resData.data)
         }
       })
       .catch((err) => {
-        console.error("Error fetching expense categories:", err);
+        console.error("Error fetching expense types:", err);
       });
   }, []);
-  
 
-    // Edit handler: navigate to edit category form
-
-const handleEdit = (id) => {
-  navigate(`/edit-categorytype?id=${id}`);
-};
+  // Edit handler: navigate to edit category form
+  const handleEdit = (id) => {
+    navigate(`/edit-categorytype?id=${id}`);
+  };
 
   const columns = [
     {
@@ -186,7 +182,7 @@ const handleEdit = (id) => {
 
   return (
     <div className="w-full p-20">
-       <div className="flex justify-between  mt-[30px] ">
+      <div className="flex justify-between  mt-[30px] ">
         <Button >Expense Type</Button>
         <Button onClick={() => navigate("/add-expensetype")}>Add expense type </Button>
       </div>
@@ -232,9 +228,9 @@ const handleEdit = (id) => {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 ))}
               </TableRow>

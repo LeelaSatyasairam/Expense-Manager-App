@@ -18,44 +18,43 @@ export function EditExpenseTypeForm() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get(`${API_BASE_URL}/name?personid=${personid}`);
-        setCategoryOptions(res.data.data); // assuming it's an array of { name: "..." }
+        const res = await axios.get(`${API_BASE_URL}/categories-name/${personid}`);
+        setCategoryOptions(res.data.data);
       } catch (error) {
         console.error("Error fetching category types", error);
       }
     }
-
     fetchCategories();
   }, []);
 
 
- // Fetch expensetypes data by ID
-useEffect(()=>{
-  const fetchData =async ()=>{
-    try{
-      console.log("Fetching expensetype id:",id);
-      const res = await axios.get(`${API_BASE_URL}/singletype?id=${id}`)
-      console.log("Category API response:", res.data);
-      const expensetype = res.data.data[0];
-      setCategorytype(expensetype.categorytype ?? "");
-      setName(expensetype.name ?? "");
-    } catch(err){
-      console.error("Failed to load expensetype", err);
-      alert("Failed to load category details");
-    }
-  };
-  if (id) fetchData();
-},[id]);
+  // Fetch expensetypes data by ID
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching expense type id:", id);
+        const res = await axios.get(`${API_BASE_URL}/expensetype?id=${id}`)
+        console.log(" API response:", res.data);
+        const expensetype = res.data.data[0];
+        setCategorytype(expensetype.categorytype ?? "");
+        setName(expensetype.name ?? "");
+      } catch (err) {
+        console.error("Failed to load expense type", err);
+      }
+    };
+    if (id) fetchData();
+  }, [id]);
 
 
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${API_BASE_URL}/editexpensetype`, { categorytype, name,id });
+      await axios.put(`${API_BASE_URL}/expensetype-edit`, { categorytype, name, id });
+      alert("successfully to edited expense type")
       navigate("/type");
     } catch (error) {
-      console.error("Error Editing category type:", error);
-      navigate("/type");
+      console.error("Error Editing expense type:", error);
+      alert("failed to edited expense type")
     }
   };
 

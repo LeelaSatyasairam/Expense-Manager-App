@@ -30,7 +30,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
-  const username = localStorage.getItem("username");
+  const username = localStorage.getItem("name");
   const navigate = useNavigate();
 
   const handleLogout = () => {

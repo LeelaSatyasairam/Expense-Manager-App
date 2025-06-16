@@ -26,10 +26,7 @@ const db = new pg.Client({
   },
 });
 
-
-
 db.connect();
-
 
 // login to website
 app.post("/login", async (req, res) => {

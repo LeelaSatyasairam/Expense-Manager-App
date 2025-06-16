@@ -21,9 +21,9 @@ const db = new pg.Client({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: 5432,
-  //   ssl: {
-  //   rejectUnauthorized: false
-  // },
+    ssl: {
+    rejectUnauthorized: false
+  },
 });
 
 

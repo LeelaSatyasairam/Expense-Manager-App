@@ -3,9 +3,17 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import env from "dotenv";
 import jwt from "jsonwebtoken"; // add this line at the top
-
+import cors from "cors"
 
 env.config()
+
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+const port = process.env.PORT;
+app.use(cors({
+  origin: process.env.ORIGIN
+}))
 
 const db = new pg.Client({
   user: process.env.DB_USER,
@@ -13,16 +21,12 @@ const db = new pg.Client({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: 5432,
-    ssl: {
-    rejectUnauthorized: false
-  },
+  //   ssl: {
+  //   rejectUnauthorized: false
+  // },
 });
 
-const app = express();
-const port = process.env.PORT;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 db.connect();
 

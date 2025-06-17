@@ -4,8 +4,7 @@
       "Access-Control-Allow-Origin": "*"
     }
   },
-  "routes": [
-    { "handle": "spa" }
-  ]
+  "routes": {
+    "/**": "index.html"
+  }
 }
-

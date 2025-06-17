@@ -55,6 +55,7 @@ export function AppSidebar({ ...props }) {
                 className="text-sidebar-primary-foreground hover:text-red-600 transition-colors"
                 title="Logout"
                 aria-label="Logout"
+                style ={{cursor: "pointer"}}
               >
                 <FaSignOutAlt size={24} />
               </button>
@@ -69,7 +70,7 @@ export function AppSidebar({ ...props }) {
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <span className="font-medium cursor-default">{item.title}</span>
+                  <span className="font-medium cursor-pointer">{item.title}</span>
                 </SidebarMenuButton>
                 {item.items?.length > 0 && (
                   <SidebarMenuSub>

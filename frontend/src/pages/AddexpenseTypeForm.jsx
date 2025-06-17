@@ -88,15 +88,16 @@ export function AddExpenseTypeForm() {
             <Button
               type="submit"
               className="flex-1"
-              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
+              style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)", cursor: "pointer" }}
             >
               Submit
             </Button>
             <Button
               type="button"
               className="flex-1 border"
-              style={{ backgroundColor: "var(--secondary)", color: "var(--secondary-foreground)", borderColor: "var(--border)" }}
+              style={{ backgroundColor: "var(--secondary)", color: "var(--secondary-foreground)", borderColor: "var(--border)", cursor: "pointer" }}
               onClick={handleCancel}
+
             >
               Cancel
             </Button>

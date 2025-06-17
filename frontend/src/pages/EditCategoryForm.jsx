@@ -101,6 +101,7 @@ export function EditCategoryForm() {
               style={{
                 backgroundColor: "var(--primary)",
                 color: "var(--primary-foreground)",
+                 cursor: "pointer",
               }}
             >
               Submit
@@ -112,6 +113,7 @@ export function EditCategoryForm() {
                 backgroundColor: "var(--secondary)",
                 color: "var(--secondary-foreground)",
                 borderColor: "var(--border)",
+                 cursor: "pointer",
               }}
               onClick={handleCancel}
             >

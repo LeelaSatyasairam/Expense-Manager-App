@@ -79,6 +79,7 @@ export function AddCategoryForm() {
               style={{
                 backgroundColor: "var(--primary)",
                 color: "var(--primary-foreground)",
+                cursor: "pointer"
               }}
             >
               Submit
@@ -90,6 +91,7 @@ export function AddCategoryForm() {
                 backgroundColor: "var(--secondary)",
                 color: "var(--secondary-foreground)",
                 borderColor: "var(--border)",
+                 cursor: "pointer",
               }}
               onClick={handleCancel}
             >

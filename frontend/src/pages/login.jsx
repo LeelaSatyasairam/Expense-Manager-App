@@ -100,6 +100,7 @@ export function LoginPage() {
                             style={{
                                 backgroundColor: "var(--primary)",
                                 color: "var(--primary-foreground)",
+                                cursor: "pointer",
                             }}
                         >
                             Login
@@ -111,6 +112,7 @@ export function LoginPage() {
                                 backgroundColor: "var(--secondary)",
                                 color: "var(--secondary-foreground)",
                                 borderColor: "var(--border)",
+                                 cursor: "pointer",
                             }}
                             onClick={handleRegister}
                         >

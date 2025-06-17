@@ -141,7 +141,7 @@ export function ExpenseTable() {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button variant="ghost"style ={{cursor: "pointer"}} className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal />
               </Button>
@@ -149,17 +149,21 @@ export function ExpenseTable() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
+              style ={{cursor: "pointer"}}
                 onClick={() => navigator.clipboard.writeText(category.id)}
               >
                 Copy ID
               </DropdownMenuItem>
               <DropdownMenuItem
+              style ={{cursor: "pointer"}}
                 onClick={() => handleEdit(category.id)}
               >
                 Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleDelete(category.id)}>
+              <DropdownMenuItem 
+              style ={{cursor: "pointer"}}
+              onClick={() => handleDelete(category.id)}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -192,7 +196,7 @@ export function ExpenseTable() {
     <div className="w-full p-20">
       <div className="flex justify-between  mt-[30px] ">
         <Button >Expenses </Button>
-        <Button onClick={() => navigate("/add-expense")}>Add expense </Button>
+        <Button style ={{cursor: "pointer"}} onClick={() => navigate("/add-expense")}>Add expense </Button>
       </div>
       <div className="flex items-center py-4 ">
         <Input
@@ -206,7 +210,7 @@ export function ExpenseTable() {
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" style ={{cursor: "pointer"}} className="ml-auto">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -280,6 +284,7 @@ export function ExpenseTable() {
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            style ={{cursor: "pointer"}}
           >
             Previous
           </Button>
@@ -288,6 +293,7 @@ export function ExpenseTable() {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            style ={{cursor: "pointer"}}
           >
             Next
           </Button>

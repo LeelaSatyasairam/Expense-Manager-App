@@ -135,7 +135,7 @@ export function DataTableDemo() {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger >
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button variant="ghost" style ={{cursor: "pointer"}} className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal />
               </Button>
@@ -144,15 +144,19 @@ export function DataTableDemo() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(category.id)}
+                style ={{cursor: "pointer"}}
               >
                 Copy ID
               </DropdownMenuItem>
               <DropdownMenuItem
+                style ={{cursor: "pointer"}}
                 onClick={() => handleEdit(category.id)}>
                 Edit
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleDelete(category.id)}>
+              <DropdownMenuItem 
+              style ={{cursor: "pointer"}}
+              onClick={() => handleDelete(category.id)}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -184,8 +188,8 @@ export function DataTableDemo() {
   return (
     <div className="w-full p-20">
       <div className="flex justify-between mt-[30px]">
-        <Button>Expense Category</Button>
-        <Button onClick={() => navigate("/add-category")}>Add category</Button>
+        <Button >Expense Category</Button>
+        <Button onClick={() => navigate("/add-category")} style ={{cursor: "pointer"}}>Add category</Button>
       </div>
       <div className="flex items-center py-4 ">
         <Input
@@ -198,7 +202,7 @@ export function DataTableDemo() {
         />
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" style ={{cursor: "pointer"}} className="ml-auto">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -272,6 +276,7 @@ export function DataTableDemo() {
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            style ={{cursor: "pointer"}}
           >
             Previous
           </Button>
@@ -280,6 +285,7 @@ export function DataTableDemo() {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            style ={{cursor: "pointer"}}
           >
             Next
           </Button>
